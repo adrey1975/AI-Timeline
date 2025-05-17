@@ -1,0 +1,329 @@
+:root {
+    --blue: rgb(92, 113, 242);
+    --blue-dark: rgb(51, 56, 118);
+    --blue-light: rgb(162, 169, 242);
+    --gray: rgb(197, 197, 197);
+    --gray-dark: rgb(124, 124, 124);
+    --gray-light: rgb(237, 237, 237);
+    --off-black: rgb(36, 36, 36);
+    --off-white: rgb(253, 253, 253);
+    --teal: rgb(134, 213, 224);
+    --teal-dark: rgb(100, 160, 168);
+    --teal-light: rgb(204, 238, 242);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--off-white);
+    font-family: "Poppins", sans-serif;
+    padding: 20px;
+}
+
+.container {
+    background-color: white;
+    border: 0.2em solid var(--gray-light);
+    border-radius: 0.4em;
+    padding: 2em;
+    width: auto;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+h1 {
+    color: var(--off-black);
+    margin-bottom: 20px;
+    font-size: 2.5em;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.instructions {
+    color: var(--gray-dark);
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.game-area {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    min-height: 150px;
+    padding: 25px;
+    background: linear-gradient(135deg, var(--gray-light) 0%, white 100%);
+    border-radius: 0.4em;
+    border: 0.2em solid var(--gray);
+    position: relative;
+}
+
+.card {
+    width: 200px;
+    padding: 15px;
+    background-color: white;
+    border: 0.2em solid var(--gray-light);
+    border-radius: 0.4em;
+    cursor: grab;
+    transition: all 0.3s ease;
+    user-select: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0.3em;
+    background: linear-gradient(90deg, var(--teal-light), var(--blue-light));
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--blue);
+    box-shadow: 0 5px 15px rgba(92, 113, 242, 0.2);
+}
+
+.card.dragging {
+    opacity: 0.8;
+    cursor: grabbing;
+}
+
+.timeline-container {
+    padding: 30px 20px;
+    background: linear-gradient(to bottom, white, var(--gray-light) 50%, white);
+    border: 0.2em solid var(--gray-light);
+    border-radius: 0.4em;
+    overflow-x: auto;
+    margin: 0 -20px;
+    position: relative;
+}
+
+.timeline {
+    position: relative;
+    padding: 20px 0;
+    min-width: max-content;
+    margin: 0 20px;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, var(--blue-light), var(--blue), var(--blue-light));
+    transform: translateY(-50%);
+    border-radius: 3px;
+    box-shadow: 0 0 10px rgba(92, 113, 242, 0.3);
+}
+
+.timeline-slots {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    padding: 0 10px;
+}
+
+.timeline-slot {
+    width: 200px;
+    height: 120px;
+    border: 0.2em dashed var(--blue);
+    border-radius: 0.4em;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.timeline-slot::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 15px;
+    background-color: var(--blue);
+}
+
+.timeline-slot.hover {
+    background-color: var(--blue-light);
+    border-style: solid;
+    transform: scale(1.02);
+}
+
+.button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.reset-button {
+    --button-color: white;
+    --button-background-color: var(--off-black);
+    --button-border-color: black;
+    --button-hover-background-color: black;
+}
+
+.check-button {
+    --button-color: black;
+    --button-background-color: var(--teal);
+    --button-border-color: var(--teal-dark);
+    --button-hover-background-color: var(--teal-dark);
+}
+
+.reset-button,
+.check-button {
+    background-color: var(--button-background-color);
+    border: 0.2em solid var(--button-border-color);
+    border-radius: 1.25em;
+    color: var(--button-color);
+    font-family: inherit;
+    height: 3em;
+    margin-bottom: 0.5em;
+    padding: 0 2em;
+    transition: all 0.2s ease;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.reset-button:hover,
+.check-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.reset-button:active,
+.check-button:active {
+    transform: translateY(1px);
+}
+
+.feedback {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 0.4em;
+    font-size: 1.2em;
+    display: none;
+    transition: all 0.3s ease;
+}
+
+.feedback.success {
+    display: block;
+    background: linear-gradient(207deg, var(--teal-light) 0%, var(--teal) 40%, var(--blue-light) 100%);
+    color: var(--off-black);
+    border: 0.2em solid var(--teal);
+    box-shadow: 0 5px 15px rgba(134, 213, 224, 0.3);
+}
+
+.feedback.error {
+    display: block;
+    background-color: var(--gray-light);
+    color: var(--off-black);
+    border: 0.2em solid var(--gray);
+    box-shadow: 0 5px 15px rgba(197, 197, 197, 0.3);
+}
+
+.card .image-container {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--gray-light);
+    border-radius: 50%;
+    padding: 10px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .image-container {
+    transform: scale(1.1);
+}
+
+.card .image {
+    font-size: 2.5em;
+    display: block;
+    line-height: 1;
+}
+
+/* Future image support */
+.card .image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.card .year {
+    font-weight: 600;
+    color: var(--blue);
+    margin-bottom: 10px;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.card .year-icon {
+    font-size: 1.2em;
+    color: var(--teal);
+}
+
+.card .event {
+    font-size: 0.95em;
+    color: var(--off-black);
+    line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1em;
+    }
+
+    .timeline-container {
+        margin: 0 -10px;
+    }
+    
+    .timeline {
+        margin: 0 10px;
+    }
+    
+    .timeline-slots {
+        gap: 15px;
+    }
+    
+    .card {
+        width: 150px;
+    }
+    
+    .timeline-slot {
+        width: 150px;
+    }
+    
+    .button-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+} 
